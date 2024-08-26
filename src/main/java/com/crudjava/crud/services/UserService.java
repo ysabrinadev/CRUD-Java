@@ -24,4 +24,25 @@ public class UserService {
 		Optional<User> user = userRepository.findById(id);
 		return user.orElseThrow(() -> new NoSuchElementException("User not found: " + id ));
 	}
+
+	public User create(User user) {
+		return userRepository.save(user);
+	}
+
+	public void delete(Long id) {
+		userRepository.deleteById(id);
+	}
+
+	public User update(Long id, User user) {
+		User entity = userRepository.getReferenceById(id);
+		updateData(entity, user);
+		return userRepository.save(entity);
+	}
+	
+	private void updateData(User entity, User user) {
+		entity.setName(user.getName());
+		entity.setEmail(user.getEmail());
+		entity.setPassword(user.getPassword());
+		entity.setDescription(user.getDescription());
+	}
 }
